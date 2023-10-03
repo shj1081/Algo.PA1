@@ -12,13 +12,18 @@ When the number of elements is even, the median is defined as the smaller of the
 Implement the following functions:
 
 * void insert(int element): Inserts an integer element into the priority queue.
+
 * int delete min(): Deletes and returns the minimum element.
+
 * int delete max): Deletes and returns the maximum element.
+
 * int delete median(): Deletes and returns the median element.
+
 * int find min(): Fetches but does not remove the minimum element.
+
 * int find max(): Fetches but does not remove the maximum element.
 
-• int find median(): Fetches but does not remove the median element.
+* int find median(): Fetches but does not remove the median element.
 
 ## 3. Input Format and Examples
 
