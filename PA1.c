@@ -17,33 +17,27 @@ int find_median(); // Fetches but does not remove the median element.
 int main() {
 
     int operation_num; 
-
     char operation_type;
-    char operation_target[20]; // int_max is up to 2,147,483,647
-    
-    char value_type;
     int element;
+    char value_type;
 
     scanf("%d", &operation_num);
 
     while (operation_num--)
     {
-        // Get input from user and execute operations.
-        scanf(" %c %s", &operation_type, operation_target);
+        scanf(" %c", &operation_type);
         
         if (operation_type == 'I') 
         {
-            sscanf(operation_target, " %d", &element);
+            scanf("%d", &element);
             //insert(element);
             printf("%c %d\n",operation_type, element);
         }
 
-        else 
-        {
-            sscanf(operation_target, " %c", &value_type);
-
-            if (operation_type == 'D')
+        else if (operation_type == 'D')
             {
+                scanf(" %c", &value_type);
+
                 if (value_type == 'M') 
                 { 
                     //delete_min; 
@@ -63,9 +57,11 @@ int main() {
 
             else if (operation_type == 'F')
             {
+                scanf(" %c", &value_type);
+
                 if (value_type == 'M') 
                 { 
-                    //find_min; 
+                    //find_min;
                     printf("%c %c\n",operation_type, value_type);
                 }
                 else if (value_type == 'X') 
@@ -80,6 +76,7 @@ int main() {
                 }
             }
         }
+        
+        return 0;
     }
-    return 0;
-}
+    
