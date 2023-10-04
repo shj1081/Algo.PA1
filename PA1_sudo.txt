@@ -1,0 +1,101 @@
+# structure priority queue
+
+typedef struct {
+    int mh[MAX_SIZE/2+2]
+    int xh[MAX_SIZE/2+2]
+    int medianVal
+} priorityQueue;
+
+# Insertion
+
+insertion(int element, mh, xh, medianVal)
+{ 
+    if (both mh & xh is empty) or (element < median)
+    {
+        append in mh
+        adjust mh
+        if (# mh.node > # xh.node + 1)
+        {
+            extract mh.max (= medianVal) & append to xh
+            adjust mh & xh
+        }
+    }
+
+    else if (element > medianVal)
+    {
+        append in xh
+        adjust xh
+        if (# xh.node > # mh.node + 1)
+        {
+            extract xh.min ( = medianVal) & append to mh
+            adjust mh & xh
+        }
+    }
+
+    update medianVal
+}
+
+# Find
+
+find_min()
+{
+    return mh.min
+}
+
+find_max()
+{
+    return xh.max
+}
+
+find_median()
+{
+    return medianVal
+}
+
+# Delete
+
+delete_min()
+{
+    extract mh.min
+    adjust mh
+    if (# xh.node > # mh.node + 1)
+        {
+            extract xh.min ( = medianVal) & append to mh
+            adjust mh & xh
+        }
+}
+
+delete_max()
+{
+    extract xh.max
+    adjust xh
+     if (# mh.node > # xh.node + 1)
+        {
+            extract mh.max (= medianVal) & append to xh
+            adjust mh & xh
+        }
+}
+
+delete_median()
+{
+    if (median in mh)
+    {
+        extract mh.max
+        adjust mh
+        if (# xh.node > # mh.node + 1)
+        {
+            extract xh.min ( = medianVal) & append to mh
+            adjust mh & xh
+        }
+    }
+    else
+    {
+        extract xh.min
+        adjust xh
+        if (# mh.node > # xh.node + 1)
+        {
+            extract mh.max (= medianVal) & append to xh
+            adjust mh & xh
+        }
+    }
+}
