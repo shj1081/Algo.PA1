@@ -1,3 +1,5 @@
 coverage/
 .DS_Store
 PA1
+input.txt
+output.txt

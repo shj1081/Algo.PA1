@@ -195,14 +195,14 @@ in the find, delete functions for heap, do not consider when heap size are zero
 it will be considered in find, delete functions of priority queue
 */
 int get_max_index(MinMaxHeap* heap) {
-    switch (heap->size) {
-        case 1:
-            return 0;
-        case 2:
+    if (heap->size == 1)
+        return 0;
+    else if (heap->size == 2)
+        return 1;
+    else {
+        if (heap->array[1] > heap->array[2])
             return 1;
-        default:
-            if (heap->array[1] > heap->array[2])
-                return 1;
+        else
             return 2;
     }
 }
@@ -332,6 +332,10 @@ int find_median() {
 main function
 */
 int main() {
+
+    //for test case
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 
     // initialize priority queue's heap
     priority_queue.smaller_heap.size = 0;
