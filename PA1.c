@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 #define MAX_SIZE 500000
 
@@ -105,8 +104,8 @@ int get_largest_index_of_C_and_GC(MinMaxHeap* heap, int index) {
     return max_index;
 }
 
-int is_grand_child(MinMaxHeap* heap, int Gparent, int Gchild) {
-    if (4 * Gparent + 3 <= Gchild && Gchild <= 4 * Gparent + 6)
+int is_grand_child(MinMaxHeap* heap, int gparent, int gchild) {
+    if (4 * gparent + 3 <= gchild && gchild <= 4 * gparent + 6)
         return 1;
     else
         return 0;
@@ -372,4 +371,3 @@ int main() {
     }
     return 0;
 }
-    
