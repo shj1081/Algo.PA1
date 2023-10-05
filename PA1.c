@@ -13,7 +13,7 @@ struct PriorityQueue {
     struct MinMaxHeap rh; // Right half heap
 };
 
-struct PriorityQueue priority_queue; // struct priority queue in global var
+struct PriorityQueue pq; // struct priority queue in global var
 
 /*
 function for min-max heap
@@ -250,19 +250,59 @@ int delete_max_of_heap(struct MinMaxHeap* heap) {
     return max;
 }
 
-void insert(int element); // Inserts an integer element into the priority queue. 
+void insert(int element) { // Inserts an integer element into the priority queue. 
+    if (pq.lh.size == 0 && pq.rh.size == 0) {
+        insert_of_heap(&pq.rh, element);
+    }
+    else if (element > find_min_of_heap(&pq.rh)) {
+        insert_of_heap(&pq.rh, element);
+        if (pq.rh.size > pq.lh.size + 2) {
+            insert_of_heap(&pq.lh, delete_min_of_heap(&pq.rh));
+        }
+    }
+    else if (element < find_min_of_heap(&pq.rh)) {
+        insert_of_heap(&pq.lh, element);
+        if (pq.lh.size == pq.rh.size) {
+            insert_of_heap(&pq.rh, delete_max_of_heap(&pq.lh));
+        }
+    }
+}
 
 int delete_min(); // Deletes and returns the minimum element.
 int delete_max(); // Deletes and returns the maximum element.
 int delete_median(); // Deletes and returns the median element.
 
-int find_min(); // Fetches but does not remove the minimum element. 
-int find_max(); // Fetches but does not remove the maximum element. 
-int find_median(); // Fetches but does not remove the median element.
+int find_min() { // Fetches but does not remove the minimum element. 
+    if (pq.lh.size == 0 && pq.rh.size == 0)
+        printf("NULL\n");
+    else if (pq.lh.size == 0 && (pq.rh.size == 1 || pq.rh.size == 2))
+        printf("%d\n", find_min_of_heap(&pq.rh));
+    else
+        printf("%d\n", find_min_of_heap(&pq.lh));
+    return 0;
+}
 
+int find_max() { // Fetches but does not remove the maximum element. 
+    if (pq.lh.size == 0 && pq.rh.size == 0)
+        printf("NULL\n");
+    else
+        printf("%d\n", find_max_of_heap(&pq.rh));
+    return 0;
+}
 
+int find_median() { // Fetches but does not remove the median element.
+    if (pq.lh.size == 0 && pq.rh.size == 0)
+        printf("NULL\n");
+    else
+        printf("%d", find_min_of_heap(&pq.rh));
+    return 0;
+}
 
 int main() {
+
+    // initialize priority queue's heap
+    pq.lh.size = 0;
+    pq.rh.size = 0;
 
     int operation_num; 
     char operation_type;
@@ -304,17 +344,11 @@ int main() {
                 scanf(" %c", &value_type);
 
                 if (value_type == 'M') 
-                { 
-                    //find_min;
-                }
+                    find_min;
                 else if (value_type == 'X') 
-                { 
-                    //find_max; 
-                }
+                    find_max; 
                 else if (value_type == 'E')
-                { 
-                    //find_median; 
-                }
+                    find_median;
             }
         }
         
