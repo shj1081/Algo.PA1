@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 #define MAX_SIZE 500000
 
@@ -313,7 +314,8 @@ int find_median() {
 main function
 */
 int main() {
-
+    int TIME = 0;
+    clock_t start = clock();
     //for test case
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
@@ -337,15 +339,18 @@ int main() {
         }
         else if (operation_type == 'D') {
                 scanf(" %c", &value_type);
-                if (value_type == 'M') 
+                if (value_type == 'M') {
                     if (priority_queue.smaller_heap.size != 0 || priority_queue.larger_heap.size != 0)
                         delete_min(); 
-                else if (value_type == 'X') 
+                }
+                else if (value_type == 'X') {
                     if (priority_queue.smaller_heap.size != 0 || priority_queue.larger_heap.size != 0)
                         delete_max(); 
-                else if (value_type == 'E')
+                }
+                else if (value_type == 'E') {
                     if (priority_queue.smaller_heap.size != 0 || priority_queue.larger_heap.size != 0)
                         delete_median(); 
+                }
         }
         else if (operation_type == 'F') {
                 scanf(" %c", &value_type);
@@ -353,23 +358,25 @@ int main() {
                     if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
                         printf("NULL\n");
                     else {
-                        find_min();
-                        printf("%d", find_min());
+                        printf("%d\n", find_min());
                     }
                 }
                 else if (value_type == 'X') {
                     if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
                         printf("NULL\n");
                     else {
-                        printf("%d", find_max());
+                        printf("%d\n", find_max());
                     }
                 }
-                else if (value_type == 'E')
+                else if (value_type == 'E') {
                     if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
                         printf("NULL\n");
                     else
-                        printf("%d",find_median());
+                        printf("%d\n",find_median());
+                }
         }
     }
+    TIME += ((int)clock() - start) / (CLOCKS_PER_SEC/1000);
+    printf("TIME : %d ,ms\n", TIME);
     return 0;
 }
