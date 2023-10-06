@@ -192,7 +192,7 @@ void push_up(MinMaxHeap* heap, int index) {
 /*
 functions for heap operation
 in the find, delete functions for heap, do not consider when heap size are zero 
-it will be considered in find, delete functions of priority queue
+it will be considered in find, delete funct operation in the main function
 */
 int get_max_index(MinMaxHeap* heap) {
     if (heap->size == 1)
@@ -241,7 +241,8 @@ int delete_max_of_heap(MinMaxHeap* heap) {
 
 /*
 functions for priority queue
-in here we should consider when the size of heap is zero (when heap is empty)
+in the find, delete functions for priority queue, do not consider when heap size are zero 
+it will be considered in find, delete funct operation in the main function
 
 we will maintain this condition to get median always from larger_heap 's min element
 condition : 2 >= (# of larger_heap 's element) - (# of smaller_heap 's element) >= 1 (except the case of priority queue is empty)
@@ -265,67 +266,47 @@ void insert(int element) {
 
 int delete_min() { 
     int result;
-    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
-        return 0;
-    else if (priority_queue.smaller_heap.size == 0 && (priority_queue.larger_heap.size == 1 || priority_queue.larger_heap.size == 2))
+    if (priority_queue.smaller_heap.size == 0 && (priority_queue.larger_heap.size == 1 || priority_queue.larger_heap.size == 2))
         result = delete_min_of_heap(&priority_queue.larger_heap);
     else {
         result = delete_min_of_heap(&priority_queue.smaller_heap);
         if (priority_queue.larger_heap.size > priority_queue.smaller_heap.size + 2)
             insert_of_heap(&priority_queue.smaller_heap, delete_min_of_heap(&priority_queue.larger_heap));
     }
-    printf("%d\n", result);
-    return 0;
+    return result;
 }
 
 int delete_max() { 
     int result;
-    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
-        return 0;
     result = delete_max_of_heap(&priority_queue.larger_heap);
     if (priority_queue.smaller_heap.size == priority_queue.larger_heap.size && priority_queue.smaller_heap.size != 0) 
         insert_of_heap(&priority_queue.larger_heap, delete_max_of_heap(&priority_queue.smaller_heap));
-    printf("%d\n", result);
-    return 0;
+    return result;
 }
 
 int delete_median() { 
     int result;
-    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
-        return 0;
-    else {
-        result = delete_min_of_heap(&priority_queue.larger_heap);
-        if (priority_queue.smaller_heap.size == priority_queue.larger_heap.size && priority_queue.smaller_heap.size != 0) 
-            insert_of_heap(&priority_queue.larger_heap, delete_max_of_heap(&priority_queue.smaller_heap));
-    }
-    printf("%d\n", result);
-    return 0;
+    result = delete_min_of_heap(&priority_queue.larger_heap);
+    if (priority_queue.smaller_heap.size == priority_queue.larger_heap.size && priority_queue.smaller_heap.size != 0) 
+        insert_of_heap(&priority_queue.larger_heap, delete_max_of_heap(&priority_queue.smaller_heap));
+    return result;
 }
 
 int find_min() {  
-    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
-        printf("NULL\n");
-    else if (priority_queue.smaller_heap.size == 0 && (priority_queue.larger_heap.size == 1 || priority_queue.larger_heap.size == 2))
-        printf("%d\n", find_min_of_heap(&priority_queue.larger_heap));
+    int result;
+    if (priority_queue.smaller_heap.size == 0 && (priority_queue.larger_heap.size == 1 || priority_queue.larger_heap.size == 2))
+        result = find_min_of_heap(&priority_queue.larger_heap);
     else
-        printf("%d\n", find_min_of_heap(&priority_queue.smaller_heap));
-    return 0;
+        result = find_min_of_heap(&priority_queue.smaller_heap);
+    return result;
 }
 
-int find_max() {  
-    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
-        printf("NULL\n");
-    else
-        printf("%d\n", find_max_of_heap(&priority_queue.larger_heap));
-    return 0;
+int find_max() { 
+    return find_max_of_heap(&priority_queue.larger_heap);
 }
 
 int find_median() { 
-    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
-        printf("NULL\n");
-    else
-        printf("%d\n", find_min_of_heap(&priority_queue.larger_heap));
-    return 0;
+    return find_min_of_heap(&priority_queue.larger_heap);
 }
 
 /*
@@ -357,20 +338,37 @@ int main() {
         else if (operation_type == 'D') {
                 scanf(" %c", &value_type);
                 if (value_type == 'M') 
-                    delete_min(); 
+                    if (priority_queue.smaller_heap.size != 0 || priority_queue.larger_heap.size != 0)
+                        delete_min(); 
                 else if (value_type == 'X') 
-                    delete_max(); 
+                    if (priority_queue.smaller_heap.size != 0 || priority_queue.larger_heap.size != 0)
+                        delete_max(); 
                 else if (value_type == 'E')
-                    delete_median(); 
+                    if (priority_queue.smaller_heap.size != 0 || priority_queue.larger_heap.size != 0)
+                        delete_median(); 
         }
         else if (operation_type == 'F') {
                 scanf(" %c", &value_type);
-                if (value_type == 'M') 
-                    find_min();
-                else if (value_type == 'X') 
-                    find_max(); 
+                if (value_type == 'M') { 
+                    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
+                        printf("NULL\n");
+                    else {
+                        find_min();
+                        printf("%d", find_min());
+                    }
+                }
+                else if (value_type == 'X') {
+                    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
+                        printf("NULL\n");
+                    else {
+                        printf("%d", find_max());
+                    }
+                }
                 else if (value_type == 'E')
-                    find_median();
+                    if (priority_queue.smaller_heap.size == 0 && priority_queue.larger_heap.size == 0)
+                        printf("NULL\n");
+                    else
+                        printf("%d",find_median());
         }
     }
     return 0;
