@@ -377,6 +377,6 @@ int main() {
         }
     }
     TIME += ((int)clock() - start) / (CLOCKS_PER_SEC/1000);
-    printf("TIME : %d ,ms\n", TIME);
+    printf("TIME : %d ms\n", TIME);
     return 0;
 }
